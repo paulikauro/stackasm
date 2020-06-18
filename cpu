@@ -37,13 +37,15 @@
 
 
 [ alu instructions ] drop
-'alu-op [ 4 shift-left bitwise-or emit ] def
+'alu-no-emit [ 4 shift-left bitwise-or ] def
+'alu-op [ alu-no-emit emit ] def
 'add [ 0 alu-op ] def
 'sub [ 1 alu-op ] def
 'rsub [ 2 alu-op ] def
 'xor [ 3 alu-op ] def
 'nor [ 4 alu-op ] def
-'halt [ 5 alu-op ] def
+'halt [ io0 5 alu-op ] def
+'imm [ r0 5 alu-op emit r0 ] def
 'cmp [ 6 alu-op ] def
 '<-acc [ 7 alu-op ] def
 

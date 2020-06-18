@@ -1,0 +1,12 @@
+'cpu import
+
+[ immediate test ]
+
+'immtest [
+    r1 <-acc
+    r1 sub
+    204 imm add
+    io1 <-acc
+    31 jmp
+] def
+
