@@ -200,7 +200,6 @@ def make_bin(x):
 @builtin(".")
 def print_top_of_stack(x):
     print(x)
-    return x
 
 
 @builtin(".s")
@@ -222,7 +221,7 @@ def print_buffer():
 @builtin("bin-buffer")
 def bin_buffer():
     for item in current_buffer:
-        print(bin(item)[2:].ljust(8, "0"))
+        print(bin(item)[2:].rjust(8, "0"))
 
 
 @builtin("buffer-pos")
