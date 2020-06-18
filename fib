@@ -2,6 +2,8 @@
 
 'halt-addr 31 def
 
+[ fibonacci, written by Trecar, translated into stackasm ] drop
+
 'fibonacci [
     r1 <-acc
     r1 sub
@@ -13,12 +15,10 @@
     r2 <-acc
     r1 add
     io1 <-acc
-
     io1 cmp
     r1 <-acc
     halt-addr br=
     r1 sub
-
     r2 add
     r1 add
     loop jmp
