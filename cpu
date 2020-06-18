@@ -1,0 +1,51 @@
+[ this is how you do comments btw ] drop
+
+
+[ dumb mapping of registers to make programming nicer ] drop
+'r0 0 def
+'r1 1 def
+'r2 2 def
+'r3 3 def
+'r4 4 def
+'r5 5 def
+'r6 6 def
+'r7 7 def
+
+[ same with io ports ] drop
+'io0 8 def
+'io1 9 def
+'io2 19 def
+'io3 11 def
+'io4 12 def
+'io5 13 def
+'io6 14 def
+'io7 15 def
+
+
+
+[ <address> <condition> branch ] drop
+'branch [ 5 shift-left bitwise-or 1000_0000 bin bitwise-or emit ] def
+'uncond 0 def
+'cond> 1 def
+'cond< 2 def
+'cond= 3 def
+
+'jmp [ uncond branch ] def
+'br> [ cond> branch ] def
+'br< [ cond< branch ] def
+'br= [ cond= branch ] def
+
+
+[ alu instructions ] drop
+'alu-op [ 4 shift-left bitwise-or emit ] def
+'add [ 0 alu-op ] def
+'sub [ 1 alu-op ] def
+'rsub [ 2 alu-op ] def
+'xor [ 3 alu-op ] def
+'nor [ 4 alu-op ] def
+'halt [ 5 alu-op ] def
+'cmp [ 6 alu-op ] def
+'<-acc [ 7 alu-op ] def
+
+'label [ buffer-pos def ] def
+
