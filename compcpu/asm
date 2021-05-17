@@ -1,0 +1,38 @@
+[ registers ] drop
+'r0 0 def
+'r1 1 def
+'r2 2 def
+'r3 3 def
+'r4 4 def
+'r5 5 def
+'r6 6 def
+'r7 7 def
+
+'opcode [ 3 shift-left ] def
+'arg-op [ opcode bitwise-or emit ] def
+
+'add [ 0 arg-op ] def
+'sub [ 1 arg-op ] def
+'cmp [ 2 arg-op ] def
+'rsh [ 3 opcode emit ] def
+'lda [ 4 arg-op ] def
+'sta [ 5 arg-op ] def
+'lim [ 6 opcode emit emit ] def
+
+[ a few convenience aliases ] drop
+'->acc [ lda ] def
+'<-acc [ sta ] def
+
+'br-inst [ 7 arg-op emit emit ] def
+
+'br-never [ 000 bin br-inst ] def
+'br> [ 001 bin br-inst ] def
+'br< [ 010 bin br-inst ] def
+'br<> [ 011 bin br-inst ] def
+'br= [ 100 bin br-inst ] def
+'br>= [ 101 bin br-inst ] def
+'br<= [ 110 bin br-inst ] def
+'br [ 111 bin br-inst ] def
+
+[ labels ] drop
+': [ buffer-pos def ] def
