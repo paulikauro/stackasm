@@ -1,6 +1,6 @@
-'n [ r1 ] def
-'a [ r2 ] def
-'b [ r3 ] def
+'n r1 def
+'a r2 def
+'b r3 def
 
   1 lim
   r4 <-acc
@@ -10,7 +10,8 @@
 'poll_n :
   r7 cmp
   poll_n br=
-  r1 <-acc
+  r7 ->acc
+  n <-acc
   1 lim
   b <-acc
 

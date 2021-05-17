@@ -29,18 +29,18 @@
 'String [ swap 8 tag emit-string-like ] def
 
 [ for lists ] drop
-'id-byte [ 1 ] def
-'id-short [ 2 ] def
-'id-int [ 3 ] def
-'id-long [ 4 ] def
-'id-float [ 5 ] def
-'id-double [ 6 ] def
-'id-byte-array [ 7 ] def
-'id-string [ 8 ] def
-'id-list [ 9 ] def
-'id-compound [ 10 ] def
-'id-int-array [ 11 ] def
-'id-long-array [ 12 ] def
+'id-byte 1 def
+'id-short 2 def
+'id-int 3 def
+'id-long 4 def
+'id-float 5 def
+'id-double 6 def
+'id-byte-array 7 def
+'id-string 8 def
+'id-list 9 def
+'id-compound 10 def
+'id-int-array 11 def
+'id-long-array 12 def
 
 'EmptyList [ rot 9 tag emit 0 emit-16 ] def
 'Compound [ swap 10 tag apply tag-end ] def
