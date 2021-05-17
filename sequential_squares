@@ -1,0 +1,50 @@
+'cpu import
+
+'out [ io7 <-acc ] def
+
+'clear [
+    r7 <-acc
+    r7 sub
+] def
+
+'->acc [ clear add ] def
+
+'nop [ r0 add ] def
+
+'one io0 def
+'two r3 def
+'limit io1 def
+'n r1 def
+'sq r2 def
+'odds r4 def
+
+'halt-end [ 31 jmp ] def
+
+'sequential-squares [
+    clear
+    one add
+    n <-acc
+    odds <-acc
+    sq <-acc
+    one add
+    two <-acc
+
+'loop label
+    sq ->acc
+    out
+    n add
+    sq <-acc
+    odds ->acc
+    two add
+    odds <-acc
+    n ->acc
+    one add
+    n <-acc
+    limit cmp
+    nop
+    loop br<
+    nop
+    halt-end
+] def
+
+

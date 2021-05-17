@@ -1,0 +1,66 @@
+[ spu instructions ] drop
+
+
+
+[ n -- nth-fibs ] drop
+
+'fibs [
+    [ tuck add ] for
+] def
+
+'label [ buffer-pos def ] def
+
+
+[ executes at least once ] drop
+
+'for [
+'loop label
+    [ loop counter to return stack ] drop
+    >r
+    [ assemble body ] drop
+    apply
+    r> dec
+    not-zero loop branch
+    drop
+]
+
+
+
+    n
+    >r
+    0 imm
+    1 imm
+loop:
+    tuck
+    add
+    r>
+    dec
+    branch to loop if zero
+    >r
+    drop
+    drop
+
+    n >r
+    0 imm
+    1 imm
+loop:
+    tuck add
+    r> dec
+    branch to loop if zero
+    # delay slot
+    >r
+loop_end:
+    # drop loop counter (rdrop) and b
+    rdrop drop
+
+
+0 1
+1 1
+1 2
+2 3
+3 5
+5 8
+
+
+
+
