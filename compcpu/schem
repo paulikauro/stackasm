@@ -1,0 +1,33 @@
+'nbt import
+
+'produce-schematic [
+
+asm-to-blocks-compcpu
+to-temp-buffer
+push-buffer
+
+'Schematic [
+  'Version 2 Int
+  'DataVersion 2567 Int
+  'Metadata [
+    'WEOffsetX 1 negate Int
+    'WEOffsetY 15 negate Int
+    'WEOffsetZ 0 Int
+  ] Compound
+  'Width 3 Short
+  'Height 16 Short
+  'Length 64 Short
+  'PaletteMax 3 Int
+  'Palette [
+    'minecraft:air 0 Int
+    'minecraft:stone 1 Int
+    'minecraft:redstone_wall_torch[facing=south,lit=false] 2 Int
+  ] Compound
+  'BlockData [
+    emit-temp-buffer
+  ] Byte_Array
+] Compound
+
+write-gzip-buffer
+
+] def

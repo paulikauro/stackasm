@@ -23,7 +23,7 @@
 '->acc [ lda ] def
 '<-acc [ sta ] def
 
-'br-inst [ 7 arg-op emit emit ] def
+'br-inst [ 7 arg-op emit ] def
 
 'br-never [ 000 bin br-inst ] def
 'br> [ 001 bin br-inst ] def

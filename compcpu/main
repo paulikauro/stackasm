@@ -1,0 +1,6 @@
+'compcpu/asm import
+'compcpu/schem import
+
+[ usage: 'inputfile 'outputfile assemble ] drop
+
+'assemble [ swap clear-buffer import produce-schematic ] def

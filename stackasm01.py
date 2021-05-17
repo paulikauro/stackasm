@@ -159,6 +159,9 @@ def define(name, value):
 def add(a, b):
     return a + b
 
+@builtin
+def negate(x):
+    return -x
 
 @builtin
 def drop(x):
@@ -218,6 +221,16 @@ def print_stack():
 
 buffer_stack = []
 current_buffer = []
+temp_buffer = []
+
+@builtin("to-temp-buffer")
+def to_temp_buffer():
+    global temp_buffer
+    temp_buffer = current_buffer
+
+@builtin("emit-temp-buffer")
+def emit_temp_buffer():
+    current_buffer.extend(temp_buffer)
 
 @builtin("push-buffer")
 def push_buffer():
@@ -241,7 +254,9 @@ def swap_buffer():
     buffer_stack.append(current_buffer)
     current_buffer = second
 
-builtin("emit")(lambda x: current_buffer.append(x & 0xFF))
+@builtin
+def emit(x):
+    current_buffer.append(x & 0xFF)
 
 @builtin("buffer-nth")
 def buffer_nth(n):
@@ -270,15 +285,36 @@ def symbol_length(s):
 def emit_symbol(s):
     current_buffer.extend((ord(c) for c in s))
 
-builtin("emit-obj")(current_buffer.append)
+@builtin("emit-obj")
+def emit_obj(x):
+    current_buffer.append(x)
 
-builtin("clear-buffer")(current_buffer.clear)
+@builtin("clear-buffer")
+def clear_buffer():
+    current_buffer.clear()
 
 @builtin("write-gzip-buffer")
 def write_gzip_buffer(filename):
     with gzip.open(filename, "wb") as f:
         f.write(bytearray(current_buffer))
 
+@builtin("asm-to-blocks-compcpu")
+def asm_to_blocks_compcpu():
+    global current_buffer
+    from itertools import product
+    def index_to_xz(i):
+        x = 2 if i < 32 else 0
+        z = 63 - (i % 32) * 2
+        return x, z
+    map = {
+        (x, z, b * 2 + 1): ((byte >> b) & 1) + 1
+        for i, byte in enumerate(current_buffer)
+        for b in range(8)
+        for x, z in (index_to_xz(i),)
+    }
+    current_buffer = [
+        map.get((x, z, y), 0) for y, z, x in product(range(16), range(64), range(3))
+    ]
 
 if __name__ == "__main__":
     main()

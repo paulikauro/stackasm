@@ -1,0 +1,32 @@
+'n [ r1 ] def
+'a [ r2 ] def
+'b [ r3 ] def
+
+  1 lim
+  r4 <-acc
+  0 lim
+  a <-acc
+  r7 <-acc
+'poll_n :
+  r7 cmp
+  poll_n br=
+  r1 <-acc
+  1 lim
+  b <-acc
+
+'loop :
+  a ->acc
+  r7 <-acc
+  b add
+  a <-acc
+  b sub
+  b <-acc
+  n ->acc
+  r4 sub
+  n <-acc
+  r0 cmp
+  loop br>
+
+'hlt :
+  hlt br
+
