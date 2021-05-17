@@ -1,0 +1,48 @@
+[ NBT writer, supports everything except float, double and non-empty lists ] drop
+
+'rsh-byte [ 8 shift-right ] def
+'rsh-2byte [ 16 shift-right ] def
+'rsh-4byte [ 32 shift-right ] def
+
+[ some things are technically broken because of signedness ] drop
+[ these are all big endian ] drop
+'emit-16 [ dup rsh-byte emit emit ] def
+'emit-32 [ dup rsh-2byte emit-16 emit-16 ] def
+'emit-64 [ dup rsh-4byte emit-32 emit-32 ] def
+
+'emit-string-like [ dup symbol-length emit-16 emit-symbol ] def
+
+[ tag-name tag-id tag. emit a tag without payload ] drop
+'tag [ emit emit-string-like ] def
+
+'tag-end [ 0 emit ] def
+'Byte [ swap 1 tag emit ] def
+'Short [ swap 2 tag emit-16 ] def
+'Int [ swap 3 tag emit-32 ] def
+'Long [ swap 4 tag emit-64 ] def
+[ sorry, floating point does not exist ] drop
+
+[ producer-quotation make-array. run quotation in a new buffer, emit-32 its length followed by itself ] drop
+'make-array [ push-buffer apply buffer-pos swap-buffer emit-32 swap-buffer [ emit ] consume-buffer ] def
+
+'Byte_Array [ swap 7 tag make-array ] def
+'String [ swap 8 tag emit-string-like ] def
+
+[ for lists ] drop
+'id-byte [ 1 ] def
+'id-short [ 2 ] def
+'id-int [ 3 ] def
+'id-long [ 4 ] def
+'id-float [ 5 ] def
+'id-double [ 6 ] def
+'id-byte-array [ 7 ] def
+'id-string [ 8 ] def
+'id-list [ 9 ] def
+'id-compound [ 10 ] def
+'id-int-array [ 11 ] def
+'id-long-array [ 12 ] def
+
+'EmptyList [ rot 9 tag emit 0 emit-16 ] def
+'Compound [ swap 10 tag apply tag-end ] def
+'Int_Array [ swap 11 tag make-array ] def
+'Long_Array [ swap 12 tag make-array ] def

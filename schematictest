@@ -1,0 +1,23 @@
+'nbt import
+
+'Schematic [
+  'Version 2 Int
+  'DataVersion 2567 Int
+  'Metadata [
+    'WEOffsetX 1 Int
+    'WEOffsetY 1 Int
+    'WEOffsetZ 1 Int
+  ] Compound
+  'Width 1 Short
+  'Height 1 Short
+  'Length 1 Short
+  'PaletteMax 1 Int
+  'Palette [
+    'minecraft:stone 0 Int
+  ] Compound
+  'BlockData [
+    0 emit
+  ] Byte_Array
+] Compound
+
+[ write this to a file using: 'filename.schem write-gzip-buffer ] drop

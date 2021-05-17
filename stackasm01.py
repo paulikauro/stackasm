@@ -2,6 +2,7 @@
 import inspect
 import readline
 import atexit
+import gzip
 
 
 def main():
@@ -173,6 +174,10 @@ def swap(x, y):
 def dup(x):
     return x, x
 
+@builtin
+def rot(a, b, c):
+    return b, c, a
+
 
 @builtin("shift-left")
 def shift_left(x, amount):
@@ -211,11 +216,36 @@ def print_stack():
     print(f"stack: {stack_pretty(stack)}")
 
 
+buffer_stack = []
 current_buffer = []
 
+@builtin("push-buffer")
+def push_buffer():
+    global current_buffer
+    buffer_stack.append(current_buffer)
+    current_buffer = []
+
+@builtin("consume-buffer")
+def consume_buffer(transform):
+    global current_buffer
+    to_consume = current_buffer
+    current_buffer = buffer_stack.pop()
+    for x in to_consume:
+        stack.append(x)
+        apply(transform)
+
+@builtin("swap-buffer")
+def swap_buffer():
+    global current_buffer
+    second = buffer_stack.pop()
+    buffer_stack.append(current_buffer)
+    current_buffer = second
 
 builtin("emit")(lambda x: current_buffer.append(x & 0xFF))
 
+@builtin("buffer-nth")
+def buffer_nth(n):
+    return current_buffer[n]
 
 @builtin("print-buffer")
 def print_buffer():
@@ -232,8 +262,22 @@ def bin_buffer():
 def buffer_pos():
     return len(current_buffer)
 
+@builtin("symbol-length")
+def symbol_length(s):
+    return len(s)
+
+@builtin("emit-symbol")
+def emit_symbol(s):
+    current_buffer.extend((ord(c) for c in s))
+
+builtin("emit-obj")(current_buffer.append)
 
 builtin("clear-buffer")(current_buffer.clear)
+
+@builtin("write-gzip-buffer")
+def write_gzip_buffer(filename):
+    with gzip.open(filename, "wb") as f:
+        f.write(bytearray(current_buffer))
 
 
 if __name__ == "__main__":
