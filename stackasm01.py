@@ -178,6 +178,10 @@ def dup(x):
 def shift_left(x, amount):
     return x << amount
 
+@builtin("shift-right")
+def shift_right(x, amount):
+    return x >> amount
+
 
 @builtin("bitwise-or")
 def bitwise_or(x, y):
@@ -210,7 +214,7 @@ def print_stack():
 current_buffer = []
 
 
-builtin("emit")(current_buffer.append)
+builtin("emit")(lambda x: current_buffer.append(x & 0xFF))
 
 
 @builtin("print-buffer")
